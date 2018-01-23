@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Code Challenge: Find Missing Number</title>
+</head>
+</head>
+<body>
+<script type="text/javascript">
+
+
+var arr = [], arr_size = 0, items_in_array = 0;
+
+
+
+var CodeChallenge = {
+	init: function(size) { 
+		arr_size = size;
+		arr = Array.from(new Array(size),(val,index)=>index+1);
+		document.write("Array size: "+arr_size+" <br/>");
+		document.write("Before Shuffling: "+arr+" <br/> <br/>");
+		this.randomize_and_remove_a_number();
+	},
+	randomize_and_remove_a_number: function() {
+		var i = 0, j = 0, temp = null
+	    for (i = arr_size - 1; i > 0; i-=1) {
+	    	j = Math.floor(Math.random() * (i + 1))
+		    temp = arr[i]
+		    arr[i] = arr[j]
+		    arr[j] = temp
+	    }
+	    arr.splice(Math.floor(Math.random()*arr_size), 1);
+	    items_in_array = arr.length;    
+	    document.write("After Shuffling and Removing a Number: "+arr+" <br/> <br/>");
+	    this.find_missing(arr);
+	},
+	find_missing: function(numbers) {
+        for (i = 1; i <= arr_size; i++) {
+            if (numbers.indexOf(i) <= -1) {
+                document.write("The Missing number is: "+i+" <br/> <br/>");
+            }
+        }
+
+	}
+}
+
+
+CodeChallenge.init(100);
+
+
+
+
+</script>
+</body>
+</html>
