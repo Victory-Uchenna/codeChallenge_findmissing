@@ -20,7 +20,12 @@ var CodeChallenge = {
 		this.randomize_and_remove_a_number();
 	},
 	randomize_and_remove_a_number: function() {
-		var i = 0, j = 0, temp = null
+      /* Christy: I'd call out that this is Fisher-Yates, so that people
+         understand where it's come from. It's also a good candidate for a
+         utility function, `shuffleArray` or similar so it can be unit tested in
+         isolation.
+       */
+      var i = 0, j = 0, temp = null
 	    for (i = arr_size - 1; i > 0; i-=1) {
 	    	j = Math.floor(Math.random() * (i + 1))
 		    temp = arr[i]
@@ -30,9 +35,24 @@ var CodeChallenge = {
 	    arr.splice(Math.floor(Math.random()*arr_size), 1);
 	    items_in_array = arr.length;    
 	    document.write("After Shuffling and Removing a Number: "+arr+" <br/> <br/>");
+      /* Christy: Minor point on program flow, I'd expect this call to happen in
+      `init` rather than here - it's not related to randomizing and removing, and
+      if we had unit tests having it here makes it hard to test in isolation. */
 	    this.find_missing(arr);
 	},
 	find_missing: function(numbers) {
+      /* Christy: Our solution is quadratic time complexity.
+         indexOf will iterate through the array and compare each element, so for
+         array length n, we're going to make on average n/2 comparisons, so
+         indexOf by itself is linear complexity.
+         We're iterating through the whole set of numbers and calling indexOf
+         each time, i.e. we'll do average n/2 comparisons n times, so it's
+         n*(n/2) == (n^2)/2
+         But that's not obvious from the code at first glance, we have to have a
+         bit of insight into how indexOf operates under the hood.
+         A good way to get that insight is to say "how would I implement indexOf
+         if it didn't exist?" and working it through in your head.
+       */
         for (i = 1; i <= arr_size; i++) {
             if (numbers.indexOf(i) <= -1) {
                 document.write("The Missing number is: "+i+" <br/> <br/>");
